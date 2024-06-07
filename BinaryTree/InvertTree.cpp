@@ -29,6 +29,15 @@ public:
 
         return root;
     }
+
+    void printPreOrder(TreeNode* node) {
+        if (node == NULL) {
+            return;
+        }
+        cout << node->val << " ";
+        printPreOrder(node->left);
+        printPreOrder(node->right);
+    }
 };
 
 int main() {
@@ -44,17 +53,8 @@ int main() {
     root->right->right = new TreeNode(9);
     TreeNode* invertedRoot = solution.invertTree(root);
     // Print the inverted tree in pre-order traversal
-    printPreOrder(invertedRoot);
+    solution.printPreOrder(invertedRoot);
     cout << endl;
 
     return 0;
-}
-
-void printPreOrder(TreeNode* node) {
-    if (node == NULL) {
-        return;
-    }
-    cout << node->val << " ";
-    printPreOrder(node->left);
-    printPreOrder(node->right);
 }
