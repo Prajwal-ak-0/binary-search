@@ -1,47 +1,64 @@
 #include <vector>
 #include <queue>
+#include<iostream>
 using namespace std;
 
-bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
-    vector<vector<int>> adj(numCourses);
-    for (auto it = prerequisites.begin(); it != prerequisites.end(); ++it) {
-        adj[(*it)[1]].push_back((*it)[0]);
+bool canFinish(int numCourses, vector<vector<int>> &prerequisites)
+{
+    vector<vector<int>> adjList(numCourses);
+
+    for (const auto &p : prerequisites)
+    {
+        adjList[p[1]].push_back(p[0]);
     }
 
-    vector<int> indegree(numCourses, 0);
-    for (int i = 0; i < numCourses; i++) {
-        for (auto it : adj[i]) {
-            indegree[it]++;
+    vector<int> indeg(numCourses, 0);
+
+    for (int i = 0; i < numCourses; i++)
+    {
+        for (int neighbour : adjList[i])
+        {
+            indeg[neighbour]++;
         }
     }
 
     queue<int> q;
-    for (int i = 0; i < numCourses; i++) {
-        if (indegree[i] == 0) {
+
+    for (int i = 0; i < numCourses; i++)
+    {
+        if (indeg[i] == 0)
+        {
             q.push(i);
         }
     }
 
-    vector<int> topo;
-    while (!q.empty()) {
+    int completedCourse = 0;
+
+    while (!q.empty())
+    {
         int node = q.front();
         q.pop();
-        topo.push_back(node);
+        completedCourse++;
 
-        for (auto it : adj[node]) {
-            indegree[it]--;
-            if (indegree[it] == 0)
-                q.push(it);
+        for (int n : adjList[node])
+        {
+            indeg[n]--;
+            if (indeg[n] == 0)
+            {
+                q.push(n);
+            }
         }
     }
 
-    return topo.size() == numCourses;
+    return completedCourse == numCourses;
 }
 
-int main() {
+int main()
+{
     int numCourses = 4;
-    vector<vector<int>> prerequisites = {{1,0},{2,1},{3,2},{1,3}};
+    vector<vector<int>> prerequisites = {{1, 0}, {2, 1}, {3, 2}, {1, 3}};
     bool result = canFinish(numCourses, prerequisites);
+    cout<<"Can finish course = "<<result<<endl;
     // Output: false (There is a cycle in the prerequisites)
     return 0;
 }
