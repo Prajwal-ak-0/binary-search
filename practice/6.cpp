@@ -8,9 +8,8 @@ void addEdge(vector<int> arr[], int u, int v)
     arr[v].push_back(u);
 }
 
-vector<int> dfs(int v, vector<int> adj[])
+vector<int> dfs(int v, vector<int> adj[], vector<int>& vis)
 {
-    vector<int> vis(v + 1, 0);
     vector<int> ans;
     stack<int> s;
 
@@ -33,9 +32,21 @@ vector<int> dfs(int v, vector<int> adj[])
     return ans;
 }
 
+bool isConnected(int v, vector<int> adj[]){
+    vector<int> vis(v+1, 0);
+    dfs(v, adj, vis );
+    
+    for(int i = 1; i<=v ;i++){
+        if(adj[i].size() > 0 && !vis[i]) return false;
+    }
+    
+    return true;
+}
+
 int main()
 {
     vector<int> adj[6];
+    
     addEdge(adj, 1, 2);
     addEdge(adj, 1, 3);
     addEdge(adj, 1, 4);
@@ -46,8 +57,11 @@ int main()
     addEdge(adj, 4, 1);
     addEdge(adj, 4, 2);
     addEdge(adj, 5, 1);
-    vector<int> res = dfs(5, adj);
-    for (auto it : res)
-        cout << it << " " << endl;
+
+    if (isConnected(5, adj))
+        cout << "The graph is connected." << endl;
+    else
+        cout << "The graph is not connected." << endl;
+
     return 0;
 }
