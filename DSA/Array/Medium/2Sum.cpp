@@ -22,7 +22,7 @@ vector<int> twoSum(vector<int>& nums, int target) {
 }
 
 int main() {
-    // Example test cases
+    // Exam+8ple test cases
     vector<int> nums1 = {2, 7, 11, 15};
     int target1 = 9;
 
