@@ -27,15 +27,15 @@ vector<int> getFloorAndCeil(int x, vector<int> &arr) {
             return {x, x};
         }
         else if(arr[m] > x) {
-            f = arr[m];
+            c = arr[m];
             e = m - 1;
         }else{
-            c = arr[m];
+            f = arr[m];
             s = m + 1;
         }
     }
     
-    return {c, f};
+    return {f, c};
 }
 
 /*
